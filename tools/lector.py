@@ -17,4 +17,7 @@ def leer_archivo(nombre):
     if not ruta.is_file():
         return "Error: el archivo no existe."
 
+    if ruta.stat().st_size > 20_000:
+        return "Error: el archivo supera el tamano permitido."
+
     return ruta.read_text(encoding="utf-8")
