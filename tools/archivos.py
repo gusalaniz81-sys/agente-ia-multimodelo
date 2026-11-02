@@ -2,14 +2,25 @@ from pathlib import Path
 
 PROYECTO = Path(__file__).resolve().parent.parent
 
-def listar_archivos():
-     archivos = []
-     
-     for ruta in PROYECTO.rglob("*"):
-         if any(parte in {".venv", ".git", "__pycache__"} for parte in ruta.relative_to(PROYECTO).parts):
-             continue
- 
-         if ruta.is_file() and ruta.name != ".env":
-             archivos.append(str(ruta.relative_to(PROYECTO)))
+CARPETAS_EXCLUIDAS = {".venv", ".git", "__pycache__"}
+ARCHIVOS_EXCLUIDOS = {".env", ".env.local"}
 
-     return archivos
+def listar_archivos(nombre=""):
+    archivos = []
+
+    for ruta in PROYECTO.rglob("*"):
+        relativa = ruta.relative_to(PROYECTO)
+
+        if any(parte in CARPETAS_EXCLUIDAS for parte in relativa.parts):
+            continue
+
+        if not ruta.is_file() or ruta.is_symlink():
+            continue
+
+        if ruta.name in ARCHIVOS_EXCLUIDOS or ruta.name.startswith(".env."):
+            continue
+
+        if nombre.lower() in ruta.name.lower():
+            archivos.append(str(relativa))
+
+    return sorted(archivos)

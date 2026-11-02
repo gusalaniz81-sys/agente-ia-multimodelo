@@ -11,3 +11,9 @@ __pycache__/
 
 # Archivos del sistema
 .DS_Store
+
+# Bases de datos comerciales
+datos/*.db
+
+# Permitir ejemplos de configuración sin contraseñas
+!.env.example
