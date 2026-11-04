@@ -17,3 +17,7 @@ datos/*.db
 
 # Permitir ejemplos de configuración sin contraseñas
 !.env.example
+
+# Autorizaciones y tokens de Mercado Libre
+datos/oauth_*.json
+datos/*tokens*.json
