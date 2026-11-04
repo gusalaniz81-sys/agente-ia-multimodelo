@@ -21,3 +21,4 @@ datos/*.db
 # Autorizaciones y tokens de Mercado Libre
 datos/oauth_*.json
 datos/*tokens*.json
+datos/.ml_tokens_*.tmp
