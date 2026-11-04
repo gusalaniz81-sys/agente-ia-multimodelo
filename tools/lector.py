@@ -3,7 +3,7 @@ from pathlib import Path
 PROYECTO = Path(__file__).resolve().parent.parent
 
 EXTENSIONES = {".py", ".txt", ".md", ".json"}
-CARPETAS_EXCLUIDAS = {".venv", ".git", "__pycache__"}
+CARPETAS_EXCLUIDAS = {".venv", ".git", "__pycache__", "datos"}
 
 def leer_archivo(nombre):
     ruta = (PROYECTO / nombre).resolve()

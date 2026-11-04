@@ -2,7 +2,7 @@ from pathlib import Path
 
 PROYECTO = Path(__file__).resolve().parent.parent
 
-CARPETAS_EXCLUIDAS = {".venv", ".git", "__pycache__"}
+CARPETAS_EXCLUIDAS = {".venv", ".git", "__pycache__", "datos"}
 ARCHIVOS_EXCLUIDOS = {".env", ".env.local"}
 
 def listar_archivos(nombre=""):

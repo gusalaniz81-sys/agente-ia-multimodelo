@@ -2,7 +2,7 @@ from pathlib import Path
 
 PROYECTO = Path(__file__).resolve().parent.parent
 EXTENSIONES = {".py", ".txt", ".md", ".json"}
-CARPETAS_EXCLUIDAS = {".venv", ".git", "__pycache__"}
+CARPETAS_EXCLUIDAS = {".venv", ".git", "__pycache__", "datos"}
 
 def buscar_texto(texto):
     if not isinstance(texto, str) or not texto.strip():
