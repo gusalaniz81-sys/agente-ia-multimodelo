@@ -6,6 +6,7 @@ import json
 from tools.buscador import buscar_texto
 from tools.diagnostico import verificar_sintaxis
 from tools.estructura import analizar_estructura
+from modulos.mercado_libre.consultar_publicacion import consultar_publicacion
 
 load_dotenv()
 
@@ -97,6 +98,23 @@ def main():
             }
         },
         "required": ["nombre"],
+        "additionalProperties": False
+    },
+    "strict": True
+},
+    {
+    "type": "function",
+    "name": "consultar_publicacion",
+    "description": "Consulta en Mercado Libre el título, precio, moneda, enlace y envío gratis de una publicación a partir de su ID.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "item_id": {
+                "type": "string",
+                "description": "ID de la publicación sin guiones, por ejemplo MLA1910816755"
+            }
+        },
+        "required": ["item_id"],
         "additionalProperties": False
     },
     "strict": True
@@ -202,6 +220,22 @@ def main():
                         "type": "function_call_output",
                         "call_id": elemento.call_id,
                         "output": json.dumps(estructura, ensure_ascii=False)
+                    }
+                    resultados.append(resultado_herramienta)
+
+                 elif elemento.name == "consultar_publicacion":
+                    argumentos = json.loads(elemento.arguments)
+                    item_id = argumentos["item_id"]
+
+                    print("Herramienta utilizada: consultar_publicacion")
+                    print("Publicación consultada:", item_id)
+
+                    publicacion = consultar_publicacion(item_id)
+
+                    resultado_herramienta = {
+                        "type": "function_call_output",
+                        "call_id": elemento.call_id,
+                        "output": json.dumps(publicacion, ensure_ascii=False)
                     }
                     resultados.append(resultado_herramienta)
 
