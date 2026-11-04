@@ -55,4 +55,3 @@ if __name__ == "__main__":
     if enlace:
         print("Abri este enlace en el navegador antes de que pasen 10 minutos:")
         print(enlace)
-EOF

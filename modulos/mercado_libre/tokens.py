@@ -117,4 +117,3 @@ def obtener_token(user_id=None):
         return {"token": tokens["access_token"], "user_id": user_id}
 
     return _renovar(user_id, tokens)
-EOF
