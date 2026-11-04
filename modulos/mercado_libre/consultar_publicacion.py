@@ -1,10 +1,9 @@
 
-import os
 import re
-import requests
-from dotenv import load_dotenv
 
-load_dotenv()
+import requests
+
+from modulos.mercado_libre.tokens import obtener_token
 
 
 def consultar_publicacion(item_id):
@@ -13,11 +12,14 @@ def consultar_publicacion(item_id):
     if not re.fullmatch(r"MLA\d{6,15}", item_id):
         return {"error": "ID de publicación inválido."}
 
-    token = os.getenv("ML_ACCESS_TOKEN")
+    acceso = obtener_token()
 
-    if not token:
+    if "token" not in acceso:
         return {
-            "error": "Falta configurar el acceso autorizado a Mercado Libre."
+            "error": acceso.get(
+                "error",
+                "Falta configurar el acceso autorizado a Mercado Libre."
+            )
         }
 
     url = f"https://api.mercadolibre.com/items/{item_id}"
@@ -26,7 +28,7 @@ def consultar_publicacion(item_id):
         respuesta = requests.get(
             url,
             headers={
-                "Authorization": f"Bearer {token}",
+                "Authorization": f"Bearer {acceso['token']}",
                 "Accept": "application/json"
             },
             timeout=15
