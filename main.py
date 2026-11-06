@@ -149,6 +149,16 @@ def main():
 ]
 
 
+     uso = {"entrada": 0, "salida": 0, "ultima_entrada": 0}
+
+     def crear_respuesta(**parametros):
+         resultado = cliente.responses.create(**parametros)
+         if resultado.usage:
+             uso["entrada"] += resultado.usage.input_tokens
+             uso["salida"] += resultado.usage.output_tokens
+             uso["ultima_entrada"] = resultado.usage.input_tokens
+         return resultado
+
      ultima_respuesta_id = None
 
      while True:
@@ -165,7 +175,7 @@ def main():
              break
 
 
-         respuesta = cliente.responses.create(
+         respuesta = crear_respuesta(
              model="gpt-4.1-mini",
              instructions="Sos un asistente de IA. Responde en español. Si una tarea requiere consultar archivos, utilizá las " \
              "herramientas disponibles. No digas que vas a leer un archivo: ejecutá la herramientas leer_archivo. Cuando tengas " \
@@ -302,7 +312,7 @@ def main():
              if respuesta.output and any(
                  elemento.type == "function_call" for elemento in respuesta.output
              ):
-                 respuesta = cliente.responses.create(
+                 respuesta = crear_respuesta(
                      model="gpt-4.1-mini",
                      previous_response_id=respuesta.id,
                      input=resultados,
@@ -322,6 +332,11 @@ def main():
 
          print("\nRespuesta del agente")
          print(respuesta.output_text)
+         print(
+             f"\nTokens de la sesión: entrada {uso['entrada']} | salida {uso['salida']}"
+             f" | total {uso['entrada'] + uso['salida']}"
+             f" | entrada de la última llamada {uso['ultima_entrada']}"
+         )
          ultima_respuesta_id = respuesta.id
 
 
